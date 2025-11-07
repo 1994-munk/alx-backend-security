@@ -16,3 +16,4 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f"IP address {ip_address} has been blocked."))
         else:
             self.stdout.write(self.style.WARNING(f"IP address {ip_address} is already blocked."))
+

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ip_tracking',
+    'ratelimit',
 ]
 
 MIDDLEWARE = [
@@ -127,4 +128,20 @@ CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
     }
+}
+
+# Message broker (Celery needs this to queue tasks)
+# If Redis is not installed locally.
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+# Import crontab for scheduling tasks
+from celery.schedules import crontab
+
+# Schedule the anomaly detection task to run every hour
+CELERY_BEAT_SCHEDULE = {
+    'detect_anomalies_hourly': {
+        'task': 'ip_tracking.tasks.detect_anomalies',
+        'schedule': crontab(minute=0, hour='*'),  # every hour
+    },
 }
