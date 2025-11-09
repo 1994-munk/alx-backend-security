@@ -25,7 +25,7 @@ SECRET_KEY = "s74#r4jxb+=qf$83zu@k%%4fhms9i+4^7bhcxbks@37gf@_zc7"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -38,10 +38,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ip_tracking',
-    'django-ratelimit',
     'rest_framework',
     'drf_yasg',
 ]
+# REST Framework global settings
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',  # Limits anonymous users
+        'rest_framework.throttling.UserRateThrottle',  # Limits logged-in users
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '10/min',  # Anonymous users can make 10 requests per minute
+        'user': '20/min',  # Logged-in users can make 20 requests per minute
+    }
+}
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -130,8 +142,6 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
     }
 }
-
-ALLOWED_HOSTS = ['wambuimunk.pythonanywhere.com']
 
 
 # Message broker (Celery needs this to queue tasks)
