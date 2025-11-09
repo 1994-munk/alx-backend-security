@@ -130,6 +130,9 @@ CACHES = {
     }
 }
 
+ALLOWED_HOSTS = ['wambuimunk.pythonanywhere.com']
+
+
 # Message broker (Celery needs this to queue tasks)
 # If Redis is not installed locally.
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
