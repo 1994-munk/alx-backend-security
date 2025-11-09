@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
 ]
+
 # REST Framework global settings
 REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': [
